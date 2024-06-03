@@ -1,0 +1,7 @@
+https://addons.mozilla.org/en-US/firefox/addon/custom-new-tab-page/
+https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/
+https://addons.mozilla.org/en-US/firefox/addon/enhancer-for-youtube/
+https://addons.mozilla.org/en-US/firefox/addon/sponsorblock/
+https://addons.mozilla.org/en-US/firefox/addon/betterttv/
+https://addons.mozilla.org/en-US/firefox/addon/darkreader/
+https://addons.mozilla.org/en-US/firefox/addon/bitwarden-password-manager/
