@@ -5,3 +5,4 @@ https://addons.mozilla.org/en-US/firefox/addon/sponsorblock/
 https://addons.mozilla.org/en-US/firefox/addon/betterttv/
 https://addons.mozilla.org/en-US/firefox/addon/darkreader/
 https://addons.mozilla.org/en-US/firefox/addon/bitwarden-password-manager/
+https://addons.mozilla.org/en-US/firefox/addon/sidebery/
