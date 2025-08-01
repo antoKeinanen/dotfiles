@@ -1,0 +1,80 @@
+@import "/home/akk/.config/colors/theme.css";
+
+window#waybar {
+  font-family: "JetBrainsMono NF";
+  background-color: transparent;
+  color: @secondary-foreground;
+}
+
+#workspaces,
+#custom-updates,
+#clock {
+  margin-left: 8px;
+  margin-top: 8px;
+  padding: 2px 16px;
+  border-radius: 8px;
+  background-color: @background;
+  border: 1px solid @border;
+}
+
+#workspaces {
+  padding: 2px 6px;
+}
+
+#workspaces button {
+  color: @secondary-foreground;
+}
+
+#workspaces button.active {
+  color: @primary;
+}
+
+#workspaces button:hover {
+  box-shadow: inherit;
+  text-shadow: inherit;
+}
+
+tooltip {
+  background-color: @muted;
+  border: 1px solid @border;
+}
+
+#connections,
+#hardware,
+#percentages,
+#buttons {
+  margin-right: 8px;
+  margin-top: 8px;
+  padding: 2px 16px;
+  border-radius: 8px;
+  background-color: @background;
+  color: @secondary-foreground;
+  border: 1px solid @border;
+}
+
+@keyframes blink {
+  to {
+    background-color: @destructive;
+    color: @destructive-foreground;
+  }
+}
+
+#bluetooth,
+#cpu,
+#memory,
+#pulseaudio,
+#custom-power-menu,
+#power-profiles-daemon,
+#temperature,
+#network {
+  margin-right: 12px;
+}
+
+#temperature.critical,
+#battery.critical:not(.charging) {
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: steps(12);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}

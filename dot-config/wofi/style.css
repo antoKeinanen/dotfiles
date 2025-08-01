@@ -1,0 +1,38 @@
+@import "/home/akk/.config/colors/theme.css";
+
+window {
+  background-color: transparent;
+  border-radius: 10px;
+}
+
+#outer-box {
+  background-color: @background;
+  border-radius: 10px;
+}
+
+#input {
+  background-color: @input;
+  border: 1px solid @border;
+  color: @muted-foreground;
+}
+
+#input:focus {
+  box-shadow: none;
+  border: 2px solid @primary;
+}
+
+#entry {
+  background: transparent;
+  border: none;
+  color: @muted-foreground;
+}
+
+#selected,
+#unselected {
+  padding: 4px 8px;
+}
+
+#selected {
+  background-color: @primary;
+}
+

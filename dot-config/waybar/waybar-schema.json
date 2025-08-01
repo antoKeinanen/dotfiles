@@ -1,0 +1,1082 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Waybar Configuration Schema",
+  "description": "JSON Schema for Waybar configuration files",
+  "type": "object",
+  "oneOf": [
+    {
+      "title": "Single Bar Configuration",
+      "$ref": "#/definitions/BarConfig"
+    },
+    {
+      "title": "Multi Bar Configuration",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/BarConfig"
+      }
+    }
+  ],
+  "definitions": {
+    "BarConfig": {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "description": "JSON Schema reference"
+        },
+        "layer": {
+          "type": "string",
+          "enum": ["top", "bottom"],
+          "default": "bottom",
+          "description": "Decide if the bar is displayed in front (top) of the windows or behind (bottom) them."
+        },
+        "output": {
+          "oneOf": [
+            {"type": "string"},
+            {"type": "array", "items": {"type": "string"}}
+          ],
+          "description": "Specifies on which screen this bar will be displayed."
+        },
+        "position": {
+          "type": "string",
+          "enum": ["top", "bottom", "left", "right"],
+          "default": "top",
+          "description": "Bar position."
+        },
+        "height": {
+          "type": "integer",
+          "description": "Height to be used by the bar if possible, leave blank for a dynamic value."
+        },
+        "width": {
+          "type": "integer",
+          "description": "Width to be used by the bar if possible, leave blank for a dynamic value."
+        },
+        "modules-left": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Modules that will be displayed on the left."
+        },
+        "modules-center": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Modules that will be displayed in the center."
+        },
+        "modules-right": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Modules that will be displayed on the right."
+        },
+        "margin": {
+          "type": "string",
+          "description": "Margins value using the css format without units."
+        },
+        "margin-top": {
+          "type": "integer",
+          "description": "Top margin value without units."
+        },
+        "margin-left": {
+          "type": "integer",
+          "description": "Left margin value without units."
+        },
+        "margin-bottom": {
+          "type": "integer",
+          "description": "Bottom margin value without units."
+        },
+        "margin-right": {
+          "type": "integer",
+          "description": "Right margin value without units."
+        },
+        "spacing": {
+          "type": "integer",
+          "default": 4,
+          "description": "Size of gaps in between of the different modules."
+        },
+        "name": {
+          "type": "string",
+          "description": "Optional name added as a CSS class, for styling multiple waybars."
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["dock", "hide", "invisible", "overlay"],
+          "description": "Selects one of the preconfigured display modes."
+        },
+        "start_hidden": {
+          "type": "boolean",
+          "default": false,
+          "description": "Option to start the bar hidden."
+        },
+        "modifier-reset": {
+          "type": "string",
+          "enum": ["press", "release"],
+          "default": "press",
+          "description": "Defines the timing of modifier key to reset the bar visibility."
+        },
+        "exclusive": {
+          "type": "boolean",
+          "default": true,
+          "description": "Option to request an exclusive zone from the compositor."
+        },
+        "fixed-center": {
+          "type": "boolean",
+          "default": true,
+          "description": "Prefer fixed center position for the modules-center block."
+        },
+        "passthrough": {
+          "type": "boolean",
+          "default": false,
+          "description": "Option to pass any pointer events to the window under the bar."
+        },
+        "ipc": {
+          "type": "boolean",
+          "default": false,
+          "description": "Option to subscribe to the Sway IPC bar configuration and visibility events."
+        },
+        "id": {
+          "type": "string",
+          "description": "bar_id for the Sway IPC."
+        },
+        "include": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Paths to additional configuration files."
+        },
+        "reload_style_on_change": {
+          "type": "boolean",
+          "default": false,
+          "description": "Option to enable reloading the css style if a modification is detected."
+        }
+      },
+      "patternProperties": {
+        "^(battery|clock|cpu|memory|network|pulseaudio|temperature|backlight|bluetooth|disk|idle_inhibitor|keyboard-state|load|mpd|mpris|privacy|tray|taskbar|wireplumber|upower|user|gamemode|cava|cffi|jack|language|power-profiles-daemon|systemd-failed-units|image|sway/workspaces|sway/window|sway/mode|sway/scratchpad|river/tags|river/window|river/mode|hyprland/workspaces|hyprland/window|hyprland/language|hyprland/submap|niri/workspaces|niri/window|niri/language|dwl/tags|custom/.+|group/.+)(#[a-zA-Z0-9_-]+)?$": {
+          "$ref": "#/definitions/ModuleConfig"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ModuleConfig": {
+      "type": "object",
+      "allOf": [
+        {"$ref": "#/definitions/CommonModuleConfig"},
+        {
+          "anyOf": [
+            {"$ref": "#/definitions/BatteryConfig"},
+            {"$ref": "#/definitions/ClockConfig"},
+            {"$ref": "#/definitions/CPUConfig"},
+            {"$ref": "#/definitions/MemoryConfig"},
+            {"$ref": "#/definitions/NetworkConfig"},
+            {"$ref": "#/definitions/PulseAudioConfig"},
+            {"$ref": "#/definitions/TemperatureConfig"},
+            {"$ref": "#/definitions/BacklightConfig"},
+            {"$ref": "#/definitions/BluetoothConfig"},
+            {"$ref": "#/definitions/DiskConfig"},
+            {"$ref": "#/definitions/CustomConfig"},
+            {"$ref": "#/definitions/TrayConfig"},
+            {"$ref": "#/definitions/GroupConfig"},
+            {"$ref": "#/definitions/SwayWorkspacesConfig"},
+            {"$ref": "#/definitions/SwayWindowConfig"},
+            {"$ref": "#/definitions/SwayModeConfig"},
+            {"$ref": "#/definitions/IdleInhibitorConfig"},
+            {"$ref": "#/definitions/KeyboardStateConfig"},
+            {"$ref": "#/definitions/MPDConfig"},
+            {"$ref": "#/definitions/GenericModuleConfig"}
+          ]
+        }
+      ]
+    },
+    "CommonModuleConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "description": "The format, how information should be displayed."
+        },
+        "format-alt": {
+          "type": "string",
+          "description": "Alternative format used on click."
+        },
+        "format-icons": {
+          "oneOf": [
+            {"type": "array", "items": {"type": "string"}},
+            {
+              "type": "object", 
+              "additionalProperties": {
+                "oneOf": [
+                  {"type": "string"},
+                  {"type": "array", "items": {"type": "string"}}
+                ]
+              }
+            },
+            {"type": "string"}
+          ],
+          "description": "Icons to be used based on percentage or state."
+        },
+        "rotate": {
+          "type": "integer",
+          "enum": [0, 90, 180, 270],
+          "description": "Positive value to rotate the text label."
+        },
+        "max-length": {
+          "type": "integer",
+          "description": "The maximum length in character the module should display."
+        },
+        "min-length": {
+          "type": "integer",
+          "description": "The minimum length in character the module should display."
+        },
+        "align": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "The alignment of the text within the module."
+        },
+        "justify": {
+          "type": "string",
+          "enum": ["left", "center", "right"],
+          "description": "The alignment of the text within the module."
+        },
+        "on-click": {
+          "type": "string",
+          "description": "Command to execute when clicked on the module."
+        },
+        "on-click-middle": {
+          "type": "string",
+          "description": "Command to execute when you middle clicked on the module."
+        },
+        "on-click-right": {
+          "type": "string",
+          "description": "Command to execute when you right clicked on the module."
+        },
+        "on-double-click": {
+          "type": "string",
+          "description": "Command to execute when you double left click on the module."
+        },
+        "on-triple-click": {
+          "type": "string",
+          "description": "Command to execute when you triple left click on the module."
+        },
+        "on-scroll-up": {
+          "type": "string",
+          "description": "Command to execute when scrolling up on the module."
+        },
+        "on-scroll-down": {
+          "type": "string",
+          "description": "Command to execute when scrolling down on the module."
+        },
+        "smooth-scrolling-threshold": {
+          "type": "number",
+          "description": "Threshold to be used when scrolling."
+        },
+        "tooltip": {
+          "type": "boolean",
+          "default": true,
+          "description": "Option to enable tooltip on hover."
+        },
+        "tooltip-format": {
+          "type": "string",
+          "description": "The format of the tooltip."
+        },
+        "interval": {
+          "type": "integer",
+          "description": "The interval in which the information gets polled."
+        },
+        "actions": {
+          "type": "object",
+          "description": "Module actions configuration.",
+          "additionalProperties": {"type": "string"}
+        }
+      }
+    },
+    "BatteryConfig": {
+      "type": "object",
+      "properties": {
+        "bat": {
+          "type": "string",
+          "description": "The battery to monitor, as in /sys/class/power_supply/"
+        },
+        "adapter": {
+          "type": "string",
+          "description": "The adapter to monitor, as in /sys/class/power_supply/"
+        },
+        "design-capacity": {
+          "type": "boolean",
+          "default": false,
+          "description": "Option to enable the use of the design capacity instead of the actual maximal capacity."
+        },
+        "full-at": {
+          "type": "integer",
+          "description": "Define the max percentage of the battery, useful for an old battery."
+        },
+        "interval": {
+          "type": "integer",
+          "default": 60,
+          "description": "The interval in which the information gets polled."
+        },
+        "states": {
+          "type": "object",
+          "description": "A number of battery states which get activated on certain capacity levels.",
+          "additionalProperties": {"type": "integer"}
+        },
+        "format-time": {
+          "type": "string",
+          "default": "{H} h {M} min",
+          "description": "The format of the estimate of time until full or empty."
+        },
+        "weighted-average": {
+          "type": "boolean",
+          "default": false,
+          "description": "For devices with multiple batteries, display percentage as weighted average."
+        },
+        "bat-compatibility": {
+          "type": "boolean",
+          "default": false,
+          "description": "Option to enable battery compatibility if not detected."
+        }
+      },
+      "patternProperties": {
+        "^format-(charging|discharging|plugged|not-charging|full|critical|warning|good)$": {
+          "type": "string",
+          "description": "Custom format based on battery status."
+        },
+        "^format-(charging|discharging|plugged|not-charging|full)-(critical|warning|good)$": {
+          "type": "string",
+          "description": "Custom format based on battery status and state."
+        },
+        "^tooltip-format-(charging|discharging|plugged|not-charging|full|critical|warning|good)$": {
+          "type": "string",
+          "description": "Custom tooltip format based on battery status."
+        }
+      }
+    },
+    "ClockConfig": {
+      "type": "object",
+      "properties": {
+        "interval": {
+          "type": "integer",
+          "default": 60,
+          "description": "The interval in which the information gets polled."
+        },
+        "format": {
+          "type": "string",
+          "default": "{:%H:%M}",
+          "description": "The format, how the date and time should be displayed."
+        },
+        "timezone": {
+          "type": "string",
+          "description": "The timezone to display the time in."
+        },
+        "timezones": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "A list of timezones to use for time display, changed using the scroll wheel."
+        },
+        "locale": {
+          "type": "string",
+          "description": "A locale to be used to display the time."
+        },
+        "calendar": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": ["year", "month"],
+              "default": "month",
+              "description": "Calendar view mode."
+            },
+            "mode-mon-col": {
+              "type": "integer",
+              "default": 3,
+              "description": "Count of months per row for year mode."
+            },
+            "weeks-pos": {
+              "type": "string",
+              "enum": ["left", "right"],
+              "description": "The position where week numbers should be displayed."
+            },
+            "on-scroll": {
+              "type": "integer",
+              "default": 1,
+              "description": "Value to scroll months/years forward/backward."
+            },
+            "format": {
+              "type": "object",
+              "properties": {
+                "months": {"type": "string"},
+                "days": {"type": "string"},
+                "weeks": {
+                  "type": "string",
+                  "default": "{:%U}"
+                },
+                "weekdays": {"type": "string"},
+                "today": {
+                  "type": "string",
+                  "default": "<b><u>{}</u></b>"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "CPUConfig": {
+      "type": "object",
+      "properties": {
+        "interval": {
+          "type": "integer",
+          "default": 10,
+          "description": "The interval in which the information gets polled."
+        },
+        "format": {
+          "type": "string",
+          "default": "{usage}%",
+          "description": "The format, how information should be displayed."
+        },
+        "max-length": {
+          "type": "integer",
+          "description": "The maximum length in character the module should display."
+        },
+        "states": {
+          "type": "object",
+          "description": "A number of CPU usage states.",
+          "additionalProperties": {"type": "integer"}
+        }
+      }
+    },
+    "MemoryConfig": {
+      "type": "object",
+      "properties": {
+        "interval": {
+          "type": "integer",
+          "default": 30,
+          "description": "The interval in which the information gets polled."
+        },
+        "format": {
+          "type": "string",
+          "default": "{}%",
+          "description": "The format, how information should be displayed."
+        },
+        "states": {
+          "type": "object",
+          "description": "A number of memory usage states.",
+          "additionalProperties": {"type": "integer"}
+        }
+      }
+    },
+    "NetworkConfig": {
+      "type": "object",
+      "properties": {
+        "interface": {
+          "type": "string",
+          "description": "Use the defined interface instead of auto detection."
+        },
+        "interval": {
+          "type": "integer",
+          "default": 60,
+          "description": "The interval in which the network information gets polled."
+        },
+        "family": {
+          "type": "string",
+          "enum": ["ipv4", "ipv6", "ipv4_6"],
+          "default": "ipv4",
+          "description": "The address family that is used for the format replacement."
+        },
+        "format-ethernet": {
+          "type": "string",
+          "description": "This format is used when a ethernet interface is displayed."
+        },
+        "format-wifi": {
+          "type": "string",
+          "description": "This format is used when a wireless interface is displayed."
+        },
+        "format-linked": {
+          "type": "string",
+          "description": "This format is used when a linked interface with no ip address is displayed."
+        },
+        "format-disconnected": {
+          "type": "string",
+          "description": "This format is used when the displayed interface is disconnected."
+        },
+        "format-disabled": {
+          "type": "string",
+          "description": "This format is used when the displayed interface is disabled."
+        },
+        "tooltip-format-ethernet": {
+          "type": "string",
+          "description": "Tooltip format for ethernet interface."
+        },
+        "tooltip-format-wifi": {
+          "type": "string",
+          "description": "Tooltip format for wifi interface."
+        },
+        "tooltip-format-disconnected": {
+          "type": "string",
+          "description": "Tooltip format for disconnected interface."
+        },
+        "tooltip-format-disabled": {
+          "type": "string",
+          "description": "Tooltip format for disabled interface."
+        }
+      }
+    },
+    "PulseAudioConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "default": "{volume}% {icon} {format_source}",
+          "description": "The format, how information should be displayed."
+        },
+        "format-bluetooth": {
+          "type": "string",
+          "description": "This format is used when using bluetooth speakers."
+        },
+        "format-bluetooth-muted": {
+          "type": "string",
+          "description": "This format is used when using bluetooth speakers and audio is muted."
+        },
+        "format-muted": {
+          "type": "string",
+          "description": "This format is used when audio is muted."
+        },
+        "format-source": {
+          "type": "string",
+          "default": "{volume}% ",
+          "description": "This format is used for the source."
+        },
+        "format-source-muted": {
+          "type": "string",
+          "default": "",
+          "description": "This format is used when the source is muted."
+        },
+        "scroll-step": {
+          "type": "number",
+          "default": 1,
+          "description": "The speed in which to change the volume when scrolling."
+        },
+        "states": {
+          "type": "object",
+          "description": "A number of volume states.",
+          "additionalProperties": {"type": "integer"}
+        }
+      }
+    },
+    "TemperatureConfig": {
+      "type": "object",
+      "properties": {
+        "thermal-zone": {
+          "type": "integer",
+          "description": "The thermal zone, as in /sys/class/thermal/"
+        },
+        "hwmon-path": {
+          "type": "string",
+          "description": "The path of the temperature sensor."
+        },
+        "input-filename": {
+          "type": "string",
+          "description": "The filename of the input file."
+        },
+        "critical-threshold": {
+          "type": "integer",
+          "default": 80,
+          "description": "The threshold before it is considered critical."
+        },
+        "interval": {
+          "type": "integer",
+          "default": 10,
+          "description": "The interval in which the information gets polled."
+        },
+        "format-critical": {
+          "type": "string",
+          "description": "The format for critical temperature."
+        }
+      }
+    },
+    "BacklightConfig": {
+      "type": "object",
+      "properties": {
+        "device": {
+          "type": "string",
+          "description": "The device to use."
+        },
+        "format": {
+          "type": "string",
+          "default": "{percent}%",
+          "description": "The format, how information should be displayed."
+        },
+        "scroll-step": {
+          "type": "number",
+          "default": 1,
+          "description": "The speed in which to change the brightness when scrolling."
+        },
+        "states": {
+          "type": "object",
+          "description": "A number of brightness states.",
+          "additionalProperties": {"type": "integer"}
+        }
+      }
+    },
+    "BluetoothConfig": {
+      "type": "object",
+      "properties": {
+        "controller": {
+          "type": "string",
+          "description": "The Bluetooth controller to use."
+        },
+        "format": {
+          "type": "string",
+          "default": "{status}",
+          "description": "The format, how information should be displayed."
+        },
+        "format-on": {
+          "type": "string",
+          "description": "This format is used when Bluetooth is enabled."
+        },
+        "format-off": {
+          "type": "string",
+          "description": "This format is used when Bluetooth is disabled."
+        },
+        "format-disabled": {
+          "type": "string",
+          "description": "This format is used when Bluetooth is disabled by rfkill."
+        },
+        "format-connected": {
+          "type": "string",
+          "description": "This format is used when Bluetooth is connected to at least one device."
+        }
+      }
+    },
+    "DiskConfig": {
+      "type": "object",
+      "properties": {
+        "interval": {
+          "type": "integer",
+          "default": 30,
+          "description": "The interval in which the information gets polled."
+        },
+        "format": {
+          "type": "string",
+          "default": "{percentage_used}%",
+          "description": "The format, how information should be displayed."
+        },
+        "path": {
+          "type": "string",
+          "default": "/",
+          "description": "The path of the disk/folder to monitor."
+        },
+        "unit": {
+          "type": "string",
+          "enum": ["", "B", "kB", "kiB", "MB", "MiB", "GB", "GiB", "TB", "TiB"],
+          "description": "The unit in which to display the disk usage."
+        },
+        "states": {
+          "type": "object",
+          "description": "A number of disk usage states.",
+          "additionalProperties": {"type": "integer"}
+        }
+      }
+    },
+    "CustomConfig": {
+      "type": "object",
+      "properties": {
+        "exec": {
+          "type": "string",
+          "description": "The path to a script which provides the module content."
+        },
+        "exec-if": {
+          "type": "string",
+          "description": "The path to a script, which determines if the exec script should be executed."
+        },
+        "exec-on-event": {
+          "type": "boolean",
+          "default": true,
+          "description": "If an event command is set then re-execute the script."
+        },
+        "hide-empty-text": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disables the module when output is empty."
+        },
+        "return-type": {
+          "type": "string",
+          "enum": ["", "json"],
+          "description": "The format of the information received from the script."
+        },
+        "interval": {
+          "oneOf": [
+            {"type": "integer"},
+            {"type": "string", "enum": ["once"]}
+          ],
+          "description": "The interval in which the information gets polled."
+        },
+        "restart-interval": {
+          "type": "integer",
+          "description": "The restart interval for continuous scripts."
+        },
+        "signal": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32,
+          "description": "The signal number used to update the module."
+        },
+        "escape": {
+          "type": "boolean",
+          "default": false,
+          "description": "Option to enable escaping of script output."
+        }
+      }
+    },
+    "TrayConfig": {
+      "type": "object",
+      "properties": {
+        "icon-size": {
+          "type": "integer",
+          "default": 21,
+          "description": "The size of the tray icons."
+        },
+        "show-passive-items": {
+          "type": "boolean",
+          "default": false,
+          "description": "Option to show passive items."
+        },
+        "spacing": {
+          "type": "integer",
+          "default": 10,
+          "description": "Size of gaps in between tray icons."
+        },
+        "reverse-direction": {
+          "type": "boolean",
+          "default": false,
+          "description": "Option to reverse the ordering of items."
+        }
+      }
+    },
+    "GroupConfig": {
+      "type": "object",
+      "properties": {
+        "orientation": {
+          "type": "string",
+          "enum": ["horizontal", "vertical", "inherit"],
+          "default": "horizontal",
+          "description": "The orientation of the group."
+        },
+        "drawer": {
+          "type": "object",
+          "properties": {
+            "transition-duration": {
+              "type": "integer",
+              "default": 500,
+              "description": "The duration of the transition in milliseconds."
+            },
+            "children-class": {
+              "type": "string",
+              "description": "CSS class name for the drawer children."
+            },
+            "transition-left-to-right": {
+              "type": "boolean",
+              "default": true,
+              "description": "The transition direction."
+            }
+          }
+        },
+        "modules": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "List of modules to group together."
+        }
+      }
+    },
+    "SwayWorkspacesConfig": {
+      "type": "object",
+      "properties": {
+        "all-outputs": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show workspaces from all outputs."
+        },
+        "disable-scroll": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable scrolling through workspaces."
+        },
+        "disable-click": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable clicking on workspaces."
+        },
+        "sort-by-number": {
+          "type": "boolean",
+          "default": false,
+          "description": "Sort workspaces by number."
+        },
+        "sort-by-name": {
+          "type": "boolean",
+          "default": false,
+          "description": "Sort workspaces by name."
+        },
+        "sort-by-coordinates": {
+          "type": "boolean",
+          "default": true,
+          "description": "Sort workspaces by coordinates."
+        },
+        "enable-bar-scroll": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable scrolling anywhere on the bar."
+        },
+        "disable-bar-scroll": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable scrolling anywhere on the bar."
+        },
+        "format": {
+          "type": "string",
+          "default": "{value}",
+          "description": "The format for workspace display."
+        },
+        "format-icons": {
+          "type": "object",
+          "additionalProperties": {"type": "string"},
+          "description": "Icons for specific workspace states."
+        },
+        "persistent_workspaces": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              {"type": "array", "items": {"type": "string"}},
+              {"type": "string"}
+            ]
+          },
+          "description": "Workspaces that should always be shown."
+        }
+      }
+    },
+    "SwayWindowConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "default": "{}",
+          "description": "The format for window title display."
+        },
+        "max-length": {
+          "type": "integer",
+          "description": "Maximum length of the window title."
+        },
+        "icon": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show window icon."
+        },
+        "icon-size": {
+          "type": "integer",
+          "default": 13,
+          "description": "Size of the window icon."
+        },
+        "all-outputs": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show windows from all outputs."
+        },
+        "offscreen-css": {
+          "type": "boolean",
+          "default": false,
+          "description": "Apply CSS to offscreen windows."
+        },
+        "offscreen-css-text": {
+          "type": "string",
+          "description": "CSS text for offscreen windows."
+        },
+        "rewrite": {
+          "type": "object",
+          "additionalProperties": {"type": "string"},
+          "description": "Regex patterns to rewrite window titles."
+        }
+      }
+    },
+    "SwayModeConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "default": "<span style=\"italic\">{}</span>",
+          "description": "The format for mode display."
+        },
+        "tooltip": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show tooltip."
+        }
+      }
+    },
+    "IdleInhibitorConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "default": "{icon}",
+          "description": "The format for idle inhibitor display."
+        },
+        "format-icons": {
+          "type": "object",
+          "properties": {
+            "activated": {"type": "string"},
+            "deactivated": {"type": "string"}
+          },
+          "description": "Icons for activated and deactivated states."
+        },
+        "timeout": {
+          "type": "number",
+          "default": 30.5,
+          "description": "Timeout for the idle inhibitor."
+        },
+        "start-activated": {
+          "type": "boolean",
+          "default": false,
+          "description": "Start with idle inhibitor activated."
+        }
+      }
+    },
+    "KeyboardStateConfig": {
+      "type": "object",
+      "properties": {
+        "numlock": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show numlock state."
+        },
+        "capslock": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show capslock state."
+        },
+        "scrolllock": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show scrolllock state."
+        },
+        "format": {
+          "type": "string",
+          "default": "{name} {icon}",
+          "description": "The format for keyboard state display."
+        },
+        "format-icons": {
+          "type": "object",
+          "properties": {
+            "locked": {"type": "string"},
+            "unlocked": {"type": "string"}
+          },
+          "description": "Icons for locked and unlocked states."
+        }
+      }
+    },
+    "MPDConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "default": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
+          "description": "The format for MPD display."
+        },
+        "format-disconnected": {
+          "type": "string",
+          "default": "Disconnected ",
+          "description": "Format when MPD is disconnected."
+        },
+        "format-stopped": {
+          "type": "string",
+          "default": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+          "description": "Format when MPD is stopped."
+        },
+        "unknown-tag": {
+          "type": "string",
+          "default": "N/A",
+          "description": "Text to show when tag is unknown."
+        },
+        "interval": {
+          "type": "integer",
+          "default": 2,
+          "description": "Update interval in seconds."
+        },
+        "consume-icons": {
+          "type": "object",
+          "properties": {
+            "on": {"type": "string"},
+            "off": {"type": "string"}
+          },
+          "description": "Icons for consume mode."
+        },
+        "random-icons": {
+          "type": "object",
+          "properties": {
+            "on": {"type": "string"},
+            "off": {"type": "string"}
+          },
+          "description": "Icons for random mode."
+        },
+        "repeat-icons": {
+          "type": "object",
+          "properties": {
+            "on": {"type": "string"},
+            "off": {"type": "string"}
+          },
+          "description": "Icons for repeat mode."
+        },
+        "single-icons": {
+          "type": "object",
+          "properties": {
+            "on": {"type": "string"},
+            "off": {"type": "string"}
+          },
+          "description": "Icons for single mode."
+        },
+        "state-icons": {
+          "type": "object",
+          "properties": {
+            "paused": {"type": "string"},
+            "playing": {"type": "string"}
+          },
+          "description": "Icons for play/pause states."
+        },
+        "tooltip-format": {
+          "type": "string",
+          "default": "MPD (connected)",
+          "description": "Tooltip format when connected."
+        },
+        "tooltip-format-disconnected": {
+          "type": "string",
+          "default": "MPD (disconnected)",
+          "description": "Tooltip format when disconnected."
+        },
+        "artist-len": {
+          "type": "integer",
+          "description": "Maximum length for artist name."
+        },
+        "album-len": {
+          "type": "integer",
+          "description": "Maximum length for album name."
+        },
+        "title-len": {
+          "type": "integer",
+          "description": "Maximum length for song title."
+        },
+        "server": {
+          "type": "string",
+          "description": "MPD server address."
+        },
+        "port": {
+          "type": "integer",
+          "default": 6600,
+          "description": "MPD server port."
+        },
+        "password": {
+          "type": "string",
+          "description": "MPD server password."
+        }
+      }
+    },
+    "GenericModuleConfig": {
+      "type": "object",
+      "description": "Generic module configuration for modules not specifically defined.",
+      "additionalProperties": true
+    }
+  }
+}

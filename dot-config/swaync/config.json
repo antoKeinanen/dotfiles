@@ -1,0 +1,5 @@
+{
+    "$schema": "https://raw.githubusercontent.com/ErikReider/SwayNotificationCenter/refs/heads/main/src/configSchema.json",
+    "cssPriority": "user",
+    "hide-on-clear": true
+}

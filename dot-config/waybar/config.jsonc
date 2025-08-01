@@ -1,0 +1,218 @@
+{
+  "$schema": "./waybar-schema.json",
+  "layer": "top",
+  "position": "top",
+  "reload_style_on_change": true,
+  "modules-left": ["hyprland/workspaces", "custom/updates"],
+  "modules-center": ["clock"],
+  "modules-right": [
+    "group/connections",
+    "group/percentages",
+    "group/hardware",
+    "group/buttons"
+  ],
+
+  "group/connections": {
+    "orientation": "horizontal",
+    "modules": ["bluetooth", "network", "custom/notification"]
+  },
+
+  "group/percentages": {
+    "orientation": "horizontal",
+    "modules": ["pulseaudio", "backlight"]
+  },
+
+  "group/hardware": {
+    "orientation": "horizontal",
+    "modules": ["temperature", "cpu", "memory", "battery"]
+  },
+
+  "group/buttons": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/menu",
+      "custom/power-menu",
+      "power-profiles-daemon",
+      "custom/theme"
+    ]
+  },
+
+  "temperature": {
+    "hwmon-path": "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon4/temp1_input",
+    "critical-threshold": 85,
+    "format": "\ue20a {temperatureC}°C"
+  },
+
+  "custom/menu": {
+    "format": " \uf40e ",
+    "tooltip": false
+  },
+
+  "custom/power-menu": {
+    "format": "\u23fb ",
+    "tooltip": false,
+    "on-click": "~/.config/wofi/wofi-power-menu"
+  },
+
+  "power-profiles-daemon": {
+    "format": "{icon} ",
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    }
+  },
+
+  "hyprland/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{name}: {windows}",
+    "justify": "center",
+    "format-window-separator": " ",
+    "window-rewrite": {
+      "class<zen>": "\ue745 ",
+      "class<Alacritty>": "\uf120 ",
+      "class<vesktop>": "\uf1ff ",
+      "class<Spotify>": "\uf1bc ",
+      "class<Code>": "\udb82\ude1e "
+    },
+    "window-rewrite-default": "\ueabc "
+  },
+
+  "custom/updates": {
+    "format": "\uf409 {}",
+    "interval": 10800,
+    "exec": "~/.config/waybar/bin/updatecheck",
+    "exec-if": "exit 0",
+    "signal": 8
+  },
+
+  "custom/theme": {
+    "format": "{}",
+    "interval": 10,
+    "exec": "~/.config/waybar/bin/get-theme",
+    "on-click": "~/.config/scripts/toggle-theme.sh"
+  },
+
+  "clock": {
+    "format": "{:%R – %A, %d.%m.}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#f0f0f0'><b>{}</b></span>",
+        "days": "<span color='#a0a0a0'><b>{}</b></span>",
+        "weeks": "<span color='#f0f0f0'><b>W{}</b></span>",
+        "weekdays": "<span color='#f0f0f0'><b>{}</b></span>",
+        "today": "<span color='#8c5cff'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+
+  "cpu": {
+    "format": "\uf4bc {usage}%",
+    "justify": "center"
+  },
+
+  "memory": {
+    "icon": true,
+    "format": "\uefc5 {}%"
+  },
+
+  "battery": {
+    "interval": 60,
+    "states": {
+      "warning": 50,
+      "critical": 25
+    },
+    "format": "{icon} {capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "max-length": 25
+  },
+
+  "bluetooth": {
+    "format": "{icon}",
+    "format-icons": {
+      "enabled": "\udb80\udcaf ",
+      "disabled": "\udb80\udcb2 "
+    },
+    "on-click": "~/.config/wofi/wofi-bluetooth"
+  },
+
+  "network": {
+    "interface": "wlp2s0",
+    "format": "{ifname} ",
+    "format-wifi": "\uf1eb ",
+    "format-disconnected": "\udb81\uddaa ",
+    "tooltip-format": "{ifname} via {gwaddr}",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+    "tooltip-format-ethernet": "{ifname}",
+    "tooltip-format-disconnected": "Disconnected",
+    "on-click": "~/.config/wofi/wofi-wifi",
+    "max-length": 50
+  },
+
+  "pulseaudio": {
+    "format": "{icon}  {volume}%",
+    "format-bluetooth": "{icon}  {volume}%",
+    "format-muted": "\udb81\udf5f",
+    "format-icons": {
+      "alsa_output.pci-0000_00_1f.3.analog-stereo": "\udb81\udcc3",
+      "alsa_output.pci-0000_00_1f.3.analog-stereo-muted": "\udb81\udcc4",
+      "headphone": "\uf025",
+      "phone": "\uf095",
+      "phone-muted": "\ued17",
+      "default": ["\uf026", "\uf027", "\uf028"]
+    },
+    "scroll-step": 1,
+    "on-click": "pavucontrol"
+  },
+
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{icon} {percent}%",
+    "format-icons": [
+      "\udb80\udcda",
+      "\udb80\udcdb",
+      "\udb80\udcdc",
+      "\udb80\udcdd",
+      "\udb80\udcde",
+      "\udb80\udcdf",
+      "\udb80\udce0"
+    ]
+  },
+
+  "custom/notification": {
+    "tooltip": false,
+    "format": " {icon} ",
+    "format-icons": {
+      "notification": "\uf0f3<span foreground='red'><sup>\uf111</sup></span>",
+      "none": "\uf0f3",
+      "dnd-notification": "\uf1f6<span foreground='red'><sup>\uf111</sup></span>",
+      "dnd-none": "\uf1f6",
+      "inhibited-notification": "\uf0f3<span foreground='red'><sup>\uf111</sup></span>",
+      "inhibited-none": "\uf0f3",
+      "dnd-inhibited-notification": "\uf1f6<span foreground='red'><sup>\uf111</sup></span>",
+      "dnd-inhibited-none": "\uf1f6"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  }
+}
