@@ -80,7 +80,8 @@
       "class<Alacritty>": "\uf120 ",
       "class<vesktop>": "\uf1ff ",
       "class<Spotify>": "\uf1bc ",
-      "class<Code>": "\udb82\ude1e "
+      "class<Code>": "\udb82\ude1e ",
+      "class<1Password>": "\uf084 "
     },
     "window-rewrite-default": "\ueabc "
   },
