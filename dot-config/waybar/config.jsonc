@@ -179,7 +179,7 @@
       "default": ["\uf026", "\uf027", "\uf028"]
     },
     "scroll-step": 1,
-    "on-click": "pavucontrol"
+    "on-click": "~/.config/wofi/wofi-audio.sh"
   },
 
   "backlight": {
