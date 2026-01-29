@@ -1,8 +1,11 @@
+[general]
 import = [
     "~/.config/alacritty/alacritty-auto-theme/theme.toml"
     # "~/.config/alacritty/themes/themes/catppuccin_latte.toml"
 ]
 
-[shell]
+[terminal]
+
+[terminal.shell]
 program = "/bin/zsh"
 args = ["-l"]
